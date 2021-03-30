@@ -373,6 +373,7 @@ async function GetMe(_cookie, res) {
     });
 }
 
+// TODO: 시간표 확인
 app.get("/me/timetable", async (req, res) => {
   const cookie = req.query.cookie;
 
