@@ -712,7 +712,7 @@ async function GetBusTable(_hour, _minute, res) {
     });
 }
 
-// 함수 목록
+// 함수
 function replaceAll(str, searchStr, replaceStr) {
   return str.split(searchStr).join(replaceStr);
 }
