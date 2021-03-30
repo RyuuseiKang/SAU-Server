@@ -439,6 +439,7 @@ async function GetTimeTable(_cookie, res) {
     });
 }
 
+// TODO: 이번주 시간표 확인
 app.get("/me/weekTimeTable", async (req, res) => {
   const cookie = req.query.cookie;
 
