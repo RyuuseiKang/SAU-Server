@@ -695,6 +695,7 @@ async function GetWeekTimeTable(_cookie, res) {
     });
 }
 
+// TODO: 버스 시간표 확인
 app.get("/bus", async (req, res) => {
   const hour = req.query.hour;
   const minute = req.query.minute;
