@@ -303,6 +303,7 @@ async function LoginCm(_cookie, _parameter, res) {
     });
 }
 
+// TODO: 세션 생존 여부 확인
 app.get("/auth/session", async (req, res) => {
   const cookie = req.query.cookie;
 
