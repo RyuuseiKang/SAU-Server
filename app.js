@@ -332,6 +332,7 @@ async function GetIsSessionAlive(_cookie, res) {
     });
 }
 
+// TODO: 내 정보 확인
 app.get("/me", async (req, res) => {
   const cookie = req.query.cookie;
 
