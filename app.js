@@ -1,5 +1,7 @@
 const axios = require("axios");
 var db_config = require('./db.js');
+var conn = db_config.init();
+db_config.connect(conn);
 
 const express = require("express");
 const app = express();
@@ -327,7 +329,11 @@ async function GetMyData(_cookie, res) {
         var profileURI =
           "https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg";
 
+          // 로그인 성공
+
+
         var ResponseBody = {
+          isLogin: true,
           userNumber: userNumber,
           userName: userName,
           profileImageURI: profileURI
