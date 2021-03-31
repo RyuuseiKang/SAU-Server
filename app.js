@@ -1,4 +1,5 @@
 const axios = require("axios");
+var db_config = require('./db.js');
 
 const express = require("express");
 const app = express();
@@ -290,16 +291,50 @@ async function LoginCm(_cookie, _parameter, res) {
       const isLogined = response.data.indexOf("blank.jsp");
 
       var ResponseBody = {
-        isLogin: isLogined > 0,
-        Cookie: cookie.GetCookie("haksa")
+        isLogin: false
       };
 
-      // console.log('isLogin: ' + (isLogined > 0));
+      if((isLogined > 0) == true) {
+        // 로그인 성공 DB에서 판별
+        return GetMyData(cookie.GetCookie("haksa"), res);
+      } else {
+        res.send(responseBody);
+        return false;
+      }
+    });
+}
+
+async function GetMyData(_cookie, res) {
+  axios
+    .post("https://haksa.sau.ac.kr/jsp/haksa/hak_a0_ma0.jsp", null, {
+      headers: {
+        Host: "haksa.sau.ac.kr",
+        Accept: "*/*",
+        Referer: "https://haksa.sau.ac.kr/blank.jsp",
+        "User-Agent": "SAUApp/0.1",
+        Cookie: _cookie
+      }
+    })
+    .then(response => {
+      const isLogin = response.data.indexOf("sso redirection") < 0;
+      if (!isLogin) {
+        var ResponseBody = { isLogin: false };
+      } else {
+        var userName = response.data.split("<b>")[1].split("</b>")[0];
+        var userNumber = response.data
+          .split('name="hb" value="')[1]
+          .split('"')[0];
+        var profileURI =
+          "https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg";
+
+        var ResponseBody = {
+          userNumber: userNumber,
+          userName: userName,
+          profileImageURI: profileURI
+        };
+      }
 
       res.send(ResponseBody);
-
-      // 로그인 판별
-      return res > 0;
     });
 }
 
