@@ -298,7 +298,7 @@ async function LoginCm(_cookie, _parameter, res) {
         // 로그인 성공 DB에서 판별
         return GetMyData(cookie.GetCookie("haksa"), res);
       } else {
-        res.send(responseBody);
+        res.send(ResponseBody);
         return false;
       }
     });
