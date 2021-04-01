@@ -340,7 +340,7 @@ async function GetMyData(_cookie, res) {
           var sql = "select registration('"+ userId +"', '"+ userNumber +"', '"+ userName +"', " + userNumber.substring(3, 5) + ", 'https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg');";    
           conn.query(sql, function (err, rows, fields) {
             if(err) console.log('query is not excuted. select fail...\n' + err);
-          else res.render('list.ejs', {list : rows});
+          else res.send(ResponseBody);
           });
 
 
