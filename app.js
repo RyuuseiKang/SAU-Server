@@ -6,6 +6,8 @@ db_config.connect(conn);
 const express = require("express");
 const app = express();
 
+app.set('views', path.join(__dirname, '/views')); 
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
