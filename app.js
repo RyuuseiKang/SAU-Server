@@ -307,7 +307,6 @@ async function LoginCm(_cookie, _parameter, res) {
 }
 
 async function GetMyData(_cookie, res) {
-  console.log(_cookie);
   axios
     .post("https://haksa.sau.ac.kr/jsp/haksa/hak_a0_ma0.jsp", null, {
       headers: {
@@ -341,6 +340,7 @@ async function GetMyData(_cookie, res) {
 
         var ResponseBody = {
           isLogin: true,
+          userCookie: _cookie,
           userNumber: userNumber,
           userName: userName,
           profileImageURI: profileURI
