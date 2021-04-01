@@ -322,6 +322,7 @@ async function GetMyData(_cookie, res) {
       if (!isLogin) {
         var ResponseBody = { isLogin: false };
       } else {
+        console.log(response.data);
         var userName = response.data.split("<b>")[1].split("</b>")[0];
         var userNumber = response.data
           .split('name="hb" value="')[1]
@@ -330,6 +331,12 @@ async function GetMyData(_cookie, res) {
           "https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg";
 
           // 로그인 성공
+          
+          var sql = "select registration('"+ userId +"', '"+ userNumber +"', '이호준', 11, 'https://scm.sau.ac.kr/upload/per/21811027.jpg');";    
+          conn.query(sql, function (err, rows, fields) {
+            if(err) console.log('query is not excuted. select fail...\n' + err);
+          else res.render('list.ejs', {list : rows});
+          });
 
 
         var ResponseBody = {
