@@ -323,6 +323,7 @@ async function GetMyData(_cookie, res) {
       if (!isLogin) {
         var ResponseBody = { isLogin: false };
       } else {
+        var userId = response.data.splist('name="master_id_i"     value="')[1].split('">')[0];
         var userName = response.data.split("<b>")[1].split("</b>")[0];
         var userNumber = response.data
           .split('name="hb" value="')[1]
@@ -332,7 +333,9 @@ async function GetMyData(_cookie, res) {
 
           // 로그인 성공
 
-          var sql = "select registration('"+ userId +"', '"+ userNumber +"', '"+ userName +"', " + + ", 'https://scm.sau.ac.kr/upload/per/21811027.jpg');";    
+          console.log('학번' + userNumber.substring(3,2));
+
+          var sql = "select registration('"+ userId +"', '"+ userNumber +"', '"+ userName +"', " + userNumber.substring(3,2) + ", 'https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg');";    
           conn.query(sql, function (err, rows, fields) {
             if(err) console.log('query is not excuted. select fail...\n' + err);
           else res.render('list.ejs', {list : rows});
