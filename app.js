@@ -318,6 +318,7 @@ async function GetMyData(_cookie, res) {
       }
     })
     .then(response => {
+      console.log(response.data);
       const isLogin = response.data.indexOf("sso redirection") < 0;
       if (!isLogin) {
         var ResponseBody = { isLogin: false };
