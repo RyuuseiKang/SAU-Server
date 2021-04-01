@@ -318,12 +318,11 @@ async function GetMyData(_cookie, res) {
       }
     })
     .then(response => {
-      console.log(response.data);
       const isLogin = response.data.indexOf("sso redirection") < 0;
       if (!isLogin) {
         var ResponseBody = { isLogin: false };
       } else {
-        var userId = response.data.splist('name="master_id_i"     value="')[1].split('">')[0];
+        var userId = response.data.split('name="master_id_i"     value="')[1].split('">')[0];
         var userName = response.data.split("<b>")[1].split("</b>")[0];
         var userNumber = response.data
           .split('name="hb" value="')[1]
