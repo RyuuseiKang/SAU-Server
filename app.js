@@ -331,9 +331,6 @@ async function GetMyData(_cookie, res) {
           "https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg";
 
           // 로그인 성공
-
-          console.log('학번 ' + userNumber.substring(3, 5));
-
           var sql = "select registration('"+ userId +"', '"+ userNumber +"', '"+ userName +"', " + userNumber.substring(3, 5) + ", 'https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg');";    
           conn.query(sql, function (err, rows, fields) {
             if(err) console.log('query is not excuted. select fail...\n' + err);
