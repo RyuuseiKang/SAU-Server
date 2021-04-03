@@ -331,11 +331,11 @@ async function GetMyData(_cookie, res) {
           "https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg";
 
           // 로그인 성공
-          var sql = "select registration('"+ userId +"', '"+ userNumber +"', '"+ userName +"', " + userNumber.substring(3, 5) + ", 'https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg');";    
-          conn.query(sql, function (err, rows, fields) {
+          var sql = registration('"+ userId +"', '"+ userNumber +"', '"+ userName +"', " + userNumber.substring(3, 5) + ", 'https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg');";    
+          conn.query("select" + sql, function (err, rows, fields) {
             if(err) console.log('query is not excuted. select fail...\n' + err);
           else {
-            console.log(rows[0]["registration('yug0305', '21911022', '양종선', 11, 'https://scm.sau.ac.kr/upload/per/21911022.jpg')"]);
+            console.log(rows[0][sql]);
           }
           });
 
