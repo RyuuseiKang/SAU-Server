@@ -335,8 +335,6 @@ async function GetMyData(_cookie, res) {
           conn.query("select " + sql + ";", function (err, rows, fields) {
             if(err) console.log('query is not excuted. select fail...\n' + err);
           else {
-            console.log("registration('yug0305', '21911022', '양종선', 11, 'https://scm.sau.ac.kr/upload/per/21911022.jpg')");
-            console.log(sql);
             console.log(rows[0][sql]);
           }
           });
