@@ -335,7 +335,7 @@ async function GetMyData(_cookie, res) {
           conn.query(sql, function (err, rows, fields) {
             if(err) console.log('query is not excuted. select fail...\n' + err);
           else {
-            console.log(rows[i].title + " : " + rows[i].description);
+            console.log(rows.title + " : " + rows.description);
           }
           });
 
