@@ -46,7 +46,7 @@ module.exports = (app) => {
 		
 					response_cookie = response.headers["set-cookie"];
 		
-					var cookie = new require("./Cookie.js");
+					var cookie = new require("../Cookie.js");
 					cookie.ClearCookieAll();
 					parser = new require("./Parser.js");
 					parser.Clear();
@@ -383,6 +383,6 @@ module.exports = (app) => {
 				return 0;
 			});
 	}
-	
+
 	return router;
 }
