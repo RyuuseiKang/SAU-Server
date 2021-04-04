@@ -339,8 +339,13 @@ async function GetMyData(_cookie, res) {
             if (rows[0][sql] == null) {
               var current_date = (new Date()).valueOf().toString();
               var random = Math.random().toString();
-              crypto.createHash('sha1').update(current_date + random).digest('hex');
-              conn.query("")
+              var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
+              conn.query("select registrationToken('" + userId + "', '" + hash + "');", function (err, rows, fields) {
+                if(err) console.log('query is not excuted. select fail...\n' + err);
+                else {
+
+                }
+              });
             }
           }
           });
