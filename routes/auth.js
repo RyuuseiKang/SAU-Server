@@ -48,7 +48,7 @@ module.exports = (app) => {
 		
 					var cookie = new require("../Cookie.js");
 					cookie.ClearCookieAll();
-					parser = new require("./Parser.js");
+					parser = new require("../Parser.js");
 					parser.Clear();
 		
 					// Req/Res Tag: console.log('LoginJSP Res: ' + response_cookie);
@@ -113,7 +113,7 @@ module.exports = (app) => {
 					response_cookie = response.headers["set-cookie"];
 		
 					cookie = _cookie;
-					parser = new require("./Parser.js");
+					parser = new require("../Parser.js");
 					parser.Clear();
 		
 					// Req/Res Tag: console.log('LoginRegistrationToken Res: ' + response_cookie);
@@ -175,7 +175,7 @@ module.exports = (app) => {
 					response_cookie = response.headers["set-cookie"];
 		
 					cookie = _cookie;
-					parser = new require("./Parser.js");
+					parser = new require("../Parser.js");
 					parser.Clear();
 		
 					// Req/Res Tag: console.log('LoginRegistrationSession Res: ' + response_cookie);
@@ -227,7 +227,7 @@ module.exports = (app) => {
 					response_cookie = response.headers["set-cookie"];
 		
 					cookie = _cookie;
-					parser = new require("./Parser.js");
+					parser = new require("../Parser.js");
 					parser.Clear();
 		
 					// Req/Res Tag: console.log('LoginDistributionToken Res: ' + response_cookie);
