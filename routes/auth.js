@@ -297,7 +297,7 @@ module.exports = (app) => {
 		}
 		
 		async function GetMyData(_cookie, res) {
-			var token;
+			var token = "";
 			axios
 				.post("https://haksa.sau.ac.kr/jsp/haksa/hak_a0_ma0.jsp", null, {
 					headers: {
