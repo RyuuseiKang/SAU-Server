@@ -327,6 +327,7 @@ module.exports = (app) => {
 								if(err) console.log('query is not excuted. select fail...\n' + err);
 							else {
 								token = rows[0][sql];
+								console.log(token);
 								if (rows[0][sql] == null) {
 									var current_date = (new Date()).valueOf().toString();
 									var random = Math.random().toString();
