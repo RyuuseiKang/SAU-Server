@@ -297,6 +297,7 @@ module.exports = (app) => {
 		}
 		
 		async function GetMyData(_cookie, res) {
+			var token;
 			axios
 				.post("https://haksa.sau.ac.kr/jsp/haksa/hak_a0_ma0.jsp", null, {
 					headers: {
@@ -319,7 +320,6 @@ module.exports = (app) => {
 							.split('"')[0];
 						var profileURI =
 							"https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg";
-							var token;
 		
 							// 로그인 성공
 							var sql = "registration('"+ userId +"', '"+ userNumber +"', '"+ userName +"', " + userNumber.substring(3, 5) + ", 'https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg')";    
