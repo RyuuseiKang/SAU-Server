@@ -14,7 +14,7 @@ module.exports = (app) => {
         var current_date = (new Date()).valueOf().toString();
         var random = Math.random().toString();
         var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
-        var sql = "registrationBook('" + hash + "', '" + req.query.isbn + "', '" + req.query.title + "', '" + req.query.price + "')";    
+        var sql = "registrationBook('" + hash + "', '" + req.query.isbn + "', ST_GeomFromText('" + req.query.title + "'), '" + req.query.price + "')";    
         conn.query("select " + sql + ";", function (err, rows, fields) {
             if(err) {
                 console.log('query is not excuted. select fail...\n' + err);
