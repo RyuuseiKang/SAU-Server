@@ -49,8 +49,9 @@ module.exports = (app) => {
                 console.log('query is not excuted. select fail...\n' + err);
                 ResponseBody = {isError: true};
             } else {
-                console.log(rows[0]);
-                ResponseBody = {rows[0]};
+                console.log(rows['RowDataPacket']);
+                rowDataPacket = rows['RowDataPacket'];
+                ResponseBody = {rowDataPacket};
             }
         });
 
