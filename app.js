@@ -7,7 +7,7 @@ app.use(express.json());
 // api
 const auth = require('./routes/auth')(app);
 app.use('/auth', auth);
-const auth = require('./routes/book')(app);
+const book = require('./routes/book')(app);
 app.use('/book', book);
 
 app.get("/", (req, res) => {
