@@ -333,7 +333,7 @@ module.exports = (app) => {
 
 								res.send(ResponseBody);
 							} else {
-								token = rows[0][sql].toString;
+								token = rows[0][sql];
 								console.log(token);
 								if (rows[0][sql] == null) {
 									var current_date = (new Date()).valueOf().toString();
