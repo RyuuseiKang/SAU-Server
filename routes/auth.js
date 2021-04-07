@@ -361,15 +361,18 @@ module.exports = (app) => {
 										subject: 'userInfo'
 									}, 
 									function(err,token){
-										if(err) reject(err)      // callback
+										if(err) {
+											reject(err)
+											// call back
+										}     
 										else {
 
 											var ResponseBody = {
 												isLogin: true,
 												token: token,
 											};
-											resolve(token);
 											res.send(ResponseBody);
+											resolve(token);
 										}
 									}
 								)

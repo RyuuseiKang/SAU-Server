@@ -9,6 +9,8 @@ const auth = require('./routes/auth')(app);
 app.use('/auth', auth);
 const book = require('./routes/book')(app);
 app.use('/book', book);
+const post = require('./routes/post')(app);
+app.use('/post', post);
 
 app.get("/", (req, res) => {
   console.log("/");
