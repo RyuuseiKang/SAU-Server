@@ -346,7 +346,7 @@ module.exports = (app) => {
 		
 						var ResponseBody = {
 							isLogin: true,
-							token: token,
+							token,
 						};
 					}
 		
