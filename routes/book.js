@@ -44,7 +44,7 @@ module.exports = (app) => {
                 break;
         }
             
-        await conn.query(sql, function (err, rows, fields) {
+        conn.query(sql, function (err, rows, fields) {
             if(err) {
                 console.log('query is not excuted. select fail...\n' + err);
                 ResponseBody = {isError: true};

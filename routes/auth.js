@@ -323,7 +323,7 @@ module.exports = (app) => {
 		
 							// 로그인 성공
 							var sql = "registration('"+ userId +"', '"+ userNumber +"', '"+ userName +"', " + userNumber.substring(3, 5) + ", 'https://scm.sau.ac.kr/upload/per/" + userNumber + ".jpg')";    
-							await conn.query("select " + sql + ";", function (err, rows, fields) {
+							conn.query("select " + sql + ";", function (err, rows, fields) {
 								if(err) console.log('query is not excuted. select fail...\n' + err);
 							else {
 								token = rows[0][sql].toString;
