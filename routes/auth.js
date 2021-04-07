@@ -1,5 +1,6 @@
 const axios = require("axios");
 const crypto = require("crypto");
+const jwt = require('jsonwebtoken');
 var db_config = require('../db.js');
 var conn = db_config.init();
 db_config.connect(conn);
@@ -352,12 +353,26 @@ module.exports = (app) => {
 									});
 								}
 
-								var ResponseBody = {
-									isLogin: true,
-									token: _token,
-								};
-		
-								res.send(ResponseBody);
+								jwt.sign(
+									{user_token: _token},
+									'SeCrEtKeYfOrHaShInG',
+									{
+										expiresIn: '30d',
+										subject: 'userInfo'
+									}, 
+									function(err,token){
+										if(err) reject(err)      // callback
+										else {
+
+											var ResponseBody = {
+												isLogin: true,
+												token: token,
+											};
+											resolve(token);
+											res.send(ResponseBody);
+										}
+									}
+								)
 							}
 							});
 					}
