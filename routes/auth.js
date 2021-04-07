@@ -12,6 +12,11 @@ module.exports = (app) => {
 			//console.log(req.query);
 			const userId = req.query.userId;
 			const userPassword = req.query.userPassword;
+
+			if(userId == '' || userPassword == '') {
+				res.send({isLogin: false})
+				return;
+			}
 		
 			// res.send(test());
 			isLogin = await LoginJSP(userId, userPassword, res);
@@ -333,13 +338,12 @@ module.exports = (app) => {
 
 								res.send(ResponseBody);
 							} else {
-								token = rows[0][sql];
-								console.log(token);
+								var _token = rows[0][sql];
 								if (rows[0][sql] == null) {
 									var current_date = (new Date()).valueOf().toString();
 									var random = Math.random().toString();
 									var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
-									token = hash;
+									_token = hash;
 									conn.query("select registrationToken('" + userId + "', '" + hash + "');", function (err, rows, fields) {
 										if(err) console.log('query is not excuted. select fail...\n' + err);
 										else {
@@ -347,16 +351,15 @@ module.exports = (app) => {
 										}
 									});
 								}
+
+								var ResponseBody = {
+									isLogin: true,
+									token: _token,
+								};
+		
+								res.send(ResponseBody);
 							}
 							});
-		
-		
-						var ResponseBody = {
-							isLogin: true,
-							token: token,
-						};
-
-						res.send(ResponseBody);
 					}
 		
 				});
