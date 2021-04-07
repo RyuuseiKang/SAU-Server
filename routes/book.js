@@ -51,7 +51,7 @@ module.exports = (app) => {
             } else {
                 console.log(rows);
                 rowDataPacket = rows.toString();
-                ResponseBody = JSON.parse(JSON.stringify(rows));
+                ResponseBody = rows;
 
                 res.send(ResponseBody);
             }
