@@ -48,12 +48,14 @@ module.exports = (app) => {
             if(err) {
                 console.log('query is not excuted. select fail...\n' + err);
                 ResponseBody = {isError: true};
+
+                res.send(ResponseBody);
             } else {
                 res.send(rows);
             }
         });
 
-        res.send(ResponseBody);
+        // res.send(ResponseBody);
     })
 
 	return router;
