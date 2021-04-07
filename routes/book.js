@@ -36,7 +36,7 @@ module.exports = (app) => {
                 var sql = "SELECT token FROM book WHERE isbn='" + req.query.isbn + "';";
                 break;
             case 'title':
-                var sql = "SELECT token FROM book WHERE title LIKE '" + req.query.title + "';";
+                var sql = "SELECT token FROM book WHERE title LIKE '%" + req.query.title + "%';";
                 break;
         
             default:
