@@ -49,9 +49,7 @@ module.exports = (app) => {
                 console.log('query is not excuted. select fail...\n' + err);
                 ResponseBody = {isError: true};
             } else {
-                console.log(rows);
-                rowDataPacket = rows.toString();
-                ResponseBody = rows;
+                res.send(rows);
             }
         });
 
