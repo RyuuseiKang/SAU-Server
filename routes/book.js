@@ -52,12 +52,10 @@ module.exports = (app) => {
                 console.log(rows);
                 rowDataPacket = rows.toString();
                 ResponseBody = rows;
-
-                res.send(ResponseBody);
             }
         });
 
-        res.send(ResponseBody);
+        await res.send(ResponseBody);
     })
 
 	return router;
