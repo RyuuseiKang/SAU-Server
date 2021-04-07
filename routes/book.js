@@ -44,7 +44,7 @@ module.exports = (app) => {
                 break;
         }
             
-        conn.query(sql, function (err, rows, fields) {
+        await conn.query(sql, function (err, rows, fields) {
             if(err) {
                 console.log('query is not excuted. select fail...\n' + err);
                 ResponseBody = {isError: true};
@@ -55,7 +55,7 @@ module.exports = (app) => {
             }
         });
 
-        await res.send(ResponseBody);
+        res.send(ResponseBody);
     })
 
 	return router;
