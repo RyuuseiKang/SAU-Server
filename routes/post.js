@@ -21,7 +21,8 @@ module.exports = (app) => {
 		var description = req.query.description;
 		var major = req.query.major;
 		var price = req.query.price;
-		var image_token = req.query.imageToken;
+		var image_token = 'null';
+		image_token = req.query.imageToken;
 		jwt.verify(user_token, 'SeCrEtKeYfOrHaShInG',
 		function(err, decoded) {
 			var current_date = (new Date()).valueOf().toString();
