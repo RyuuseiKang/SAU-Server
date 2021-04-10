@@ -29,9 +29,9 @@ module.exports = (app) => {
 			var random = Math.random().toString();
 			var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
 			
-			var sql = "select posting('" + hash + "', '" + decoded.user_token + "', '" + book_token + "', '" + isSell + "', '" + description + "', " + major + ", " + price + ", '" + image_token + "';";
+			var sql = "select posting('" + hash + "', '" + decoded.user_token + "', '" + book_token + "', " + isSell + ", '" + description + "', '" + major + "', '" + price + "', '" + image_token + "');";
 			conn.query(sql, function(err, rows, fields) {
-				if(err) console.log('query is not excuted. select fail...\n +' + err);
+				if(err) console.log('query is not excuted. select fail...\n' + err);
 				else {
 					res.send({
 						postToken: hash,
@@ -50,7 +50,23 @@ module.exports = (app) => {
 
 		conn.query(sql, function (err, rows, fields) {
 			if(err) {
-				console.log('query is not excuted. select faill...\n' + err);
+				console.log('query is not excuted. select fail...\n' + err);
+				ResponseBody = {isError: true};
+			} else {
+				res.send(rows);
+			}
+		})
+	})
+
+	router.get('/live', async (req, res) => {
+		var ResponseBody;
+		var page = 1;
+		page = req.query.page;
+		var sql = "SELECT * FROM post ORDER BY timestamp limit " + (page-1) * 10 + ", 10;";
+
+		conn.query(sql, function (err, rows, fields) {
+			if(err) {
+				console.log('query is not excuted. select fail...\n' +err);
 				ResponseBody = {isError: true};
 			} else {
 				res.send(rows);
