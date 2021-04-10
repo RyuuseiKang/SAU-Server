@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 var db_config = require('../db.js');
 var conn = db_config.init();
 db_config.connect(conn);
+const jwtSecret = process.env.JWT_SECRET;
 
 module.exports = (app) => {
 	const router = require('express').Router();
@@ -355,7 +356,7 @@ module.exports = (app) => {
 
 								jwt.sign(
 									{user_token: _token},
-									'SeCrEtKeYfOrHaShInG',
+									jwtSecret,
 									{
 										expiresIn: '30d',
 										subject: 'userInfo'

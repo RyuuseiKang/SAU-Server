@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 var db_config = require('../db.js');
 var conn = db_config.init();
 db_config.connect(conn);
+const jwtSecret = process.env.JWT_SECRET;
 
 
 var db_config = require('../db.js');
@@ -14,7 +15,7 @@ module.exports = (app) => {
 	const router = require('express').Router();
 	const application = app;
 
-    router.get('/write', async (req, res) => {
+    router.post('/', async (req, res) => {
         var user_token = req.query.token;
 		var book_token = req.query.bookToken;
 		var isSell = req.query.isSell;
@@ -23,7 +24,7 @@ module.exports = (app) => {
 		var price = req.query.price;
 		var image_token = 'null';
 		image_token = req.query.imageToken;
-		jwt.verify(user_token, 'SeCrEtKeYfOrHaShInG',
+		jwt.verify(user_token, jwtSecret,
 		function(err, decoded) {
 			var current_date = (new Date()).valueOf().toString();
 			var random = Math.random().toString();
@@ -42,20 +43,77 @@ module.exports = (app) => {
 		})
     });
 
-	router.get('/view', async (req, res) => {
+	router.delete('/', async (req, res) => {
+		var user_token = req.query.userToken;
+		var post_token = req.query.token;
+
+		jwt.verify(user_token, jwtSecret,
+			function(err, decoded) {
+				if(err) {
+					res.send({
+						isRemove: false
+					});
+					return;
+				}
+				var sql = "select removePost('" + post_token + "', '" + decoded.user_token + "');" 
+				conn.query(sql, function(err, rows, fields) {
+					if(err) {
+						console.log('query is not excuted. select fail...\n' + err);
+						res.send({
+							isRemove: false
+						});
+					} else {
+						res.send({
+							isRemove: true
+						});
+					}
+				})
+			});
+	});
+
+	router.get('/', async (req, res) => {
 		var token = req.query.token;
+		var user_token = req.query.userToken;
 		var ResponseBody;
 
-		var sql = "SELECT * FROM post WHERE token='" + token + "';";
-
-		conn.query(sql, function (err, rows, fields) {
-			if(err) {
-				console.log('query is not excuted. select fail...\n' + err);
-				ResponseBody = {isError: true};
-			} else {
-				res.send(rows);
-			}
-		})
+		if(user_token != undefined) {
+			jwt.verify(user_token, jwtSecret,
+				function(err, decoded) {
+					if(err) {
+						var sql = "SELECT *, (false) AS isMyPost FROM post WHERE token='" + token + "';"
+						conn.query(sql, function (err, rows, fields) {
+							if(err) {
+								console.log('query is not excuted. select fail...\n' + err);
+								ResponseBody = {isError: true};
+							} else {
+								res.send(rows);
+							}
+						});
+						return;
+					}
+					
+					var sql = "SELECT *, IF(user_token='" + decoded.user_token + "', true , false) AS isMyPost FROM post WHERE token='" + token + "';"
+					conn.query(sql, function (err, rows, fields) {
+						if(err) {
+							console.log('query is not excuted. select fail...\n' + err);
+							ResponseBody = {isError: true};
+						} else {
+							res.send(rows);
+						}
+					});
+			});
+		} else {
+			var sql = "SELECT *, (false) AS isMyPost FROM post WHERE token='" + token + "';"
+			conn.query(sql, function (err, rows, fields) {
+				if(err) {
+					console.log('query is not excuted. select fail...\n' + err);
+					ResponseBody = {isError: true};
+				} else {
+					res.send(rows);
+				}
+			});
+		}
+		
 	})
 
 	router.get('/live', async (req, res) => {
