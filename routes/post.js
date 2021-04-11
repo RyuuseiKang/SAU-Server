@@ -6,11 +6,6 @@ var conn = db_config.init();
 db_config.connect(conn);
 const jwtSecret = process.env.JWT_SECRET;
 
-
-var db_config = require('../db.js');
-var conn = db_config.init();
-db_config.connect(conn);
-
 module.exports = (app) => {
 	const router = require('express').Router();
 	const application = app;
@@ -26,14 +21,24 @@ module.exports = (app) => {
 		image_token = req.query.imageToken;
 		jwt.verify(user_token, jwtSecret,
 		function(err, decoded) {
+			if(err) {
+				res.send({
+					isError: true,
+				})
+				return;
+			}
 			var current_date = (new Date()).valueOf().toString();
 			var random = Math.random().toString();
 			var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
 			
 			var sql = "select posting('" + hash + "', '" + decoded.user_token + "', '" + book_token + "', " + isSell + ", '" + description + "', '" + major + "', '" + price + "', '" + image_token + "');";
 			conn.query(sql, function(err, rows, fields) {
-				if(err) console.log('query is not excuted. select fail...\n' + err);
-				else {
+				if(err) {
+					console.log('query is not excuted. select fail...\n' + err);
+					res.send({
+						isError: true,
+					});
+				} else {
 					res.send({
 						postToken: hash,
 					});
@@ -97,6 +102,7 @@ module.exports = (app) => {
 						if(err) {
 							console.log('query is not excuted. select fail...\n' + err);
 							ResponseBody = {isError: true};
+							res.send(ResponseBody);
 						} else {
 							res.send(rows);
 						}
@@ -120,7 +126,7 @@ module.exports = (app) => {
 		var ResponseBody;
 		var page = 1;
 		page = req.query.page;
-		var sql = "SELECT * FROM post ORDER BY timestamp limit " + (page-1) * 10 + ", 10;";
+		var sql = "SELECT post.token, user.name as name, book.title, major.name as major, post.isSell, post.price, post.description, post.image_token, post.timestamp FROM post LEFT JOIN user ON post.user_token = user.token LEFT JOIN major ON user.major = major.code LEFT JOIN book ON post.book_token=book.token ORDER BY timestamp limit " + (page-1) * 10 + ", 10;";
 
 		conn.query(sql, function (err, rows, fields) {
 			if(err) {

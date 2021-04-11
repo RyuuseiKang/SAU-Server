@@ -13,6 +13,10 @@ const book = require('./routes/book')(app);
 app.use('/book', book);
 const post = require('./routes/post')(app);
 app.use('/post', post);
+const upload = require('./routes/upload')(app);
+app.use('/upload', upload);
+const chat = require('./routes/chat')(app);
+app.use('/chat', chat);
 
 app.get("/", (req, res) => {
   console.log("/");
