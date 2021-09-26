@@ -15,8 +15,12 @@ const post = require('./routes/post')(app);
 app.use('/post', post);
 const upload = require('./routes/upload')(app);
 app.use('/upload', upload);
+const user = require('./routes/user')(app);
+app.use('/user', user);
 const chat = require('./routes/chat')(app);
 app.use('/chat', chat);
+
+app.use(express.static(__dirname + '/images'));
 
 app.get("/", (req, res) => {
   console.log("/");
@@ -28,7 +32,7 @@ app.listen(3005, () => {
 });
 
 // TODO: 내 정보 확인
-app.get("/me", async (req, res) => {
+app.get("/me-legacy", async (req, res) => {
   const cookie = req.query.cookie;
 
   profile = GetMe(cookie, res);
@@ -256,7 +260,7 @@ async function GetWeekTimeTable(_cookie, res) {
                 axios
                   .post(
                     "https://cs.sau.ac.kr/m/student/calendarList.do?weeks=" +
-                      weekCount,
+                    weekCount,
                     null,
                     {
                       headers: {
@@ -341,7 +345,7 @@ async function GetWeekTimeTable(_cookie, res) {
                           lessonName = tableList[i][j];
                         }
                       }
-                      
+
                       data = {
                         time: tableList[i].length + 9 + ":00",
                         lessonName: "수업 끝",
