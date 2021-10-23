@@ -58,7 +58,7 @@ module.exports = (app) => {
                     chat: rows,
                 });
             }
-        }
+        });
     })
 
     return router;
