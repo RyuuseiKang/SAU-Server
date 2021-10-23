@@ -46,7 +46,7 @@ module.exports = (app) => {
     router.get('/', async (req, res) => {
         var post_token = req.query.postToken;
 
-        var sql = "select * from chat where post_token = '" + post_token + "';";
+        var sql = "select chat.token, chat.timestamp, chat.contents, user.name, user.major, user.profileImage, user.id from chat left join user ON user.token=chat.user_token where post_token = '" + post_token + "';";
         conn.query(sql, function (err, rows, fields) {
             if (err) {
                 console.log(err);
