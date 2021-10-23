@@ -15,21 +15,21 @@ module.exports = (app) => {
         var post_token = req.query.postToken;
         var contents = req.query.contents;
 
-        jwt.verify(user_token, jwtSecret, function(err, decoded) {
-            if(err) {
+        jwt.verify(user_token, jwtSecret, function (err, decoded) {
+            if (err) {
                 res.send({
                     isError: true,
                 });
                 return;
-                
+
             }
             var current_date = (new Date()).valueOf().toString();
-			var random = Math.random().toString();
-			var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
-			
+            var random = Math.random().toString();
+            var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
+
             var sql = "select chat('" + hash + "', '" + decoded.user_token + "', '" + post_token + "', '" + contents + "');";
-            conn.query(sql, function(err, rows, fields) {
-                if(err) {
+            conn.query(sql, function (err, rows, fields) {
+                if (err) {
                     console.log(err);
                     res.send({
                         isError: true,
@@ -42,6 +42,24 @@ module.exports = (app) => {
             });
         });
     });
+
+    router.get('/', async (req, res) => {
+        var post_token = req.query.postToken;
+
+        var sql = "select * from chat where post_token = '" + post_token + "';";
+        conn.query(sql, function (err, rows, fields) {
+            if (err) {
+                console.log(err);
+                res.send({
+                    isError: true,
+                });
+            } else {
+                res.send({
+                    chat: rows,
+                });
+            }
+        }
+    })
 
     return router;
 }
