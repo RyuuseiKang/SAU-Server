@@ -84,7 +84,7 @@ module.exports = (app) => {
                     });
                 } else {
                     res.send({
-                        chatToken: hash,
+                        isRemoved: true,
                     });
                 }
             });
