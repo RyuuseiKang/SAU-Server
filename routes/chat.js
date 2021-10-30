@@ -59,6 +59,35 @@ module.exports = (app) => {
                 });
             }
         });
+    });
+
+    router.delete('/', async (req, res) => {
+        var chat_token = req.query.token;
+        var user_token = req.query.userToken;
+
+        jwt.verify(user_token, jwtSecret, function (err, decoded) {
+            if (err) {
+                res.send({
+                    isError: true,
+                });
+                return;
+
+            }
+
+            var sql = "delete from chat where user_token=" + user_token + " and token=" + chat_token + ";";
+            conn.query(sql, function (err, rows, fields) {
+                if (err) {
+                    console.log(err);
+                    res.send({
+                        isError: true,
+                    });
+                } else {
+                    res.send({
+                        chatToken: hash,
+                    });
+                }
+            });
+        });
     })
 
     return router;
