@@ -31,7 +31,7 @@ module.exports = (app) => {
 				var random = Math.random().toString();
 				var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
 
-				var sql = "select posting('" + hash + "', '" + decoded.user_token + "', '" + book_token + "', " + isSell + ", '" + description + "', '" + major + "', '" + price + "', '" + image_token + "');";
+				var sql = "select posting('" + hash + "', '" + decoded.user_token + "', '" + book_token + "', " + isSell + ", '" + description + "', '" + major + "', '" + price + "', '" + imageUri + "');";
 				conn.query(sql, function (err, rows, fields) {
 					if (err) {
 						console.log('query is not excuted. select fail...\n' + err);
