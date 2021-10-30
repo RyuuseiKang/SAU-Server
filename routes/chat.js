@@ -75,7 +75,6 @@ module.exports = (app) => {
             }
 
             var sql = "delete from chat where user_token='" + decoded.user_token + "' and token='" + chat_token + "';";
-            console.log(sql);
             conn.query(sql, function (err, rows, fields) {
                 if (err) {
                     console.log(err);
