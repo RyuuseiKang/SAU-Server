@@ -24,7 +24,7 @@ module.exports = (app) => {
 					});
 					return;
 				}
-				var sql = "SELECT id, name, profileImage, major.name as major FROM user LEFT JOIN major ON user.major=major.code WHERE token='" + decoded.user_token + "';"
+				var sql = "SELECT u.id, u.name, u.profileImage, m.name as major FROM user AS u LEFT JOIN major AS m ON u.major=m.code WHERE token='" + decoded.user_token + "';"
 				conn.query(sql, function (err, rows, fields) {
 					if (err) {
 						console.log('query is not excuted. select fail...\n' + err);
@@ -42,10 +42,7 @@ module.exports = (app) => {
 	router.get('/myposts', async (req, res) => {
 		var user_token = req.query.userToken;
 		var ResponseBody;
-        var page = 1;
-        page = req.query5147
-
-
+        var page = req.query.page ? req.query.page : 1;
         
 		jwt.verify(user_token, jwtSecret,
 			function (err, decoded) {
@@ -58,8 +55,8 @@ module.exports = (app) => {
 					return;
 				}
                 var sql = "SELECT post.token, user.name as name, book.title, major.name as major, post.isSell, post.price, post.description, post.imageUri, post.timestamp FROM post LEFT JOIN user ON post.user_token = user.token LEFT JOIN major ON user.major = major.code LEFT JOIN book ON post.book_token=book.token WHERE user_token='" + decoded.user_token +"' ORDER BY timestamp DESC limit " + (page - 1) * 10 + ", 10;";
-
-				conn.query(sql, function (err, rows, fields) {
+                
+                conn.query(sql, function (err, rows, fields) {
 					if (err) {
 						console.log('query is not excuted. select fail...\n' + err);
 						res.send({

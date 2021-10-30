@@ -31,7 +31,7 @@ module.exports = (app) => {
 				var random = Math.random().toString();
 				var hash = crypto.createHash('sha1').update(current_date + random).digest('hex');
 
-				var sql = "select posting('" + hash + "', '" + decoded.user_token + "', '" + book_token + "', " + isSell + ", '" + description + "', '" + major + "', '" + price + "', '" + imageUri + "');";
+				var sql = "select posting('" + hash + "', '" + decoded.user_token + "', '" + book_token + "', " + isSell + ", '" + description + "', '" + major + "', '" + price + "', '" + image_token + "');";
 				conn.query(sql, function (err, rows, fields) {
 					if (err) {
 						console.log('query is not excuted. select fail...\n' + err);
@@ -75,6 +75,39 @@ module.exports = (app) => {
 					}
 				})
 			});
+	});
+
+	router.put('/', async (req, res) => {
+		var user_token = req.query.userToken;
+		var post_token = req.query.token;
+		var description = req.query.description;
+		var price = req.query.price;
+		var imageUri = req.query.imageUri;
+		var isSell = req.query.isSell;
+
+		jwt.verify(user_token, jwtSecret,
+			function (err, decoded) {
+				if (err) {
+					res.send({
+						isRemove: false
+					});
+					return;
+				}
+				var sql = "update post set description=" + description + ", imageUri=" + imageUri + ", price=" + price + ", isSell=" + isSell + " where user_token=" + user_token + " and token=" + post_token;
+				conn.query(sql, function (err, rows, fields) {
+					if (err) {
+						console.log('query is not excuted. update fail...\n' + err);
+						res.send({
+							isRemove: false
+						});
+					} else {
+						res.send({
+							isRemove: true
+						});
+					}
+				})
+			});
+
 	});
 
 	router.get('/', async (req, res) => {

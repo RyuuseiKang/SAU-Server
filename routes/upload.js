@@ -1,6 +1,8 @@
 const axios = require("axios");
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const sharp = require('sharp');
+const fs = require('fs')
 const jwtSecret = process.env.JWT_SECRET;
 const multer = require('multer');
 const upload = multer({
@@ -13,7 +15,7 @@ const upload = multer({
             cb(null, getHash() + '.jpg');
         },
     }),
-    limits: { fileSize: 20 * 1024 * 1024 } // 바이러스때문에 크기를 설정해주는 것이 좋다.
+    limits: { fileSize: 20 * 1000 * 1000 } // 바이러스때문에 크기를 설정해주는 것이 좋다.
 });
 
 function getHash() {
@@ -27,12 +29,27 @@ module.exports = (app) => {
     const application = app;
 
     router.post('/img', upload.single('attachment'),(req,res) => {
-        res.json(req.file);
-        console.log(req.file);
-        
-        res.send({
-            isError: false
-        });
+        try{
+            const newFile = getHash() + '.jpg';
+            sharp('./' + req.file.path)	// 리사이징할 파일의 경로
+                .resize({width:640})	// 원본 비율 유지하면서 width 크기만 설정
+                .withMetadata()
+                .toFile('./images/' + newFile, (err, info)=>{
+                    if(err) throw err               
+                    console.log(`info : ${info}`)
+                    info.filename = newFile;
+                    res.send(info);
+                    fs.unlink('./' + req.file.path, (err)=>{	
+                    // 원본파일은 삭제해줍니다
+                    // 원본파일을 삭제하지 않을거면 생략해줍니다
+                      if(err) throw err				            
+          
+                    })                  
+                })
+          }catch(err){
+              console.log(err)
+              res.send(err);
+          }
     });
 
     return router;
