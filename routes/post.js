@@ -84,6 +84,7 @@ module.exports = (app) => {
 		var price = req.query.price;
 		var imageUri = req.query.imageUri;
 		var isSell = req.query.isSell;
+		var isComplete = req.query.isComplete;
 
 		jwt.verify(user_token, jwtSecret,
 			function (err, decoded) {
@@ -93,7 +94,7 @@ module.exports = (app) => {
 					});
 					return;
 				}
-				var sql = "update post set description='" + description + "', imageUri='" + imageUri + "', price='" + price + "', isSell=" + isSell + " where user_token='" + decoded.user_token + "' and token='" + post_token + "'";
+				var sql = "update post set isComplete='" + isComplete + "' description='" + description + "', imageUri='" + imageUri + "', price='" + price + "', isSell=" + isSell + " where user_token='" + decoded.user_token + "' and token='" + post_token + "'";
 				conn.query(sql, function (err, rows, fields) {
 					if (err) {
 						console.log('query is not excuted. update fail...\n' + err);
@@ -160,7 +161,7 @@ module.exports = (app) => {
 		var ResponseBody;
 		var page = 1;
 		page = req.query.page;
-		var sql = "SELECT post.token, user.name as name, book.title, major.name as major, post.isSell, post.price, post.description, post.imageUri, post.timestamp FROM post LEFT JOIN user ON post.user_token = user.token LEFT JOIN major ON user.major = major.code LEFT JOIN book ON post.book_token=book.token ORDER BY timestamp DESC limit " + (page - 1) * 10 + ", 10;";
+		var sql = "SELECT post.token, user.name as name, book.title, major.name as major, post.isSell, post.price, post.description, post.imageUri, post.timestamp FROM post LEFT JOIN user ON post.user_token = user.token LEFT JOIN major ON user.major = major.code LEFT JOIN book ON post.book_token=book.token WHERE post.isComplete is false ORDER BY timestamp DESC limit " + (page - 1) * 10 + ", 10;";
 
 		conn.query(sql, function (err, rows, fields) {
 			if (err) {
