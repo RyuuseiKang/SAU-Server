@@ -94,6 +94,7 @@ module.exports = (app) => {
 					});
 					return;
 				}
+				console.log(isComplete);
 				var sql = "update post set isComplete=" + isComplete + " description='" + description + "', imageUri='" + imageUri + "', price='" + price + "', isSell=" + isSell + " where user_token='" + decoded.user_token + "' and token='" + post_token + "'";
 				conn.query(sql, function (err, rows, fields) {
 					if (err) {
