@@ -120,7 +120,7 @@ module.exports = (app) => {
 			jwt.verify(user_token, jwtSecret,
 				function (err, decoded) {
 					if (err) {
-						var sql = "SELECT post.token, user.name as name, book.title, major.name as major, post.isSell, post.price, post.description, post.imageUri, post.timestamp, post.isComplete, (false) AS isMyPost FROM post LEFT JOIN user ON post.user_token = user.token LEFT JOIN major ON user.major = major.code LEFT JOIN book ON post.book_token=book.token WHERE token='" + token + "';"
+						var sql = "SELECT post.token, user.name as name, book.title, major.name as major, post.isSell, post.price, post.description, post.imageUri, post.timestamp, post.isComplete, (false) AS isMyPost FROM post LEFT JOIN user ON post.user_token = user.token LEFT JOIN major ON user.major = major.code LEFT JOIN book ON post.book_token=book.token WHERE post.token='" + token + "';"
 						conn.query(sql, function (err, rows, fields) {
 							if (err) {
 								console.log('query is not excuted. select fail...\n' + err);
@@ -132,7 +132,7 @@ module.exports = (app) => {
 						return;
 					}
 
-					var sql = "SELECT post.token, user.name as name, book.title, major.name as major, post.isSell, post.price, post.description, post.imageUri, post.timestamp, post.isComplete, IF(user_token='" + decoded.user_token + "', true , false) AS isMyPost FROM post LEFT JOIN user ON post.user_token = user.token LEFT JOIN major ON user.major = major.code LEFT JOIN book ON post.book_token=book.token WHERE token='" + token + "';"
+					var sql = "SELECT post.token, user.name as name, book.title, major.name as major, post.isSell, post.price, post.description, post.imageUri, post.timestamp, post.isComplete, IF(user_token='" + decoded.user_token + "', true , false) AS isMyPost FROM post LEFT JOIN user ON post.user_token = user.token LEFT JOIN major ON user.major = major.code LEFT JOIN book ON post.book_token=book.token WHERE post.token='" + token + "';"
 					conn.query(sql, function (err, rows, fields) {
 						if (err) {
 							console.log('query is not excuted. select fail...\n' + err);
@@ -144,7 +144,7 @@ module.exports = (app) => {
 					});
 				});
 		} else {
-			var sql = "SELECT post.token, user.name as name, book.title, major.name as major, post.isSell, post.price, post.description, post.imageUri, post.timestamp, post.isComplete, (false) AS isMyPost FROM post LEFT JOIN user ON post.user_token = user.token LEFT JOIN major ON user.major = major.code LEFT JOIN book ON post.book_token=book.token WHERE token='" + token + "';"
+			var sql = "SELECT post.token, user.name as name, book.title, major.name as major, post.isSell, post.price, post.description, post.imageUri, post.timestamp, post.isComplete, (false) AS isMyPost FROM post LEFT JOIN user ON post.user_token = user.token LEFT JOIN major ON user.major = major.code LEFT JOIN book ON post.book_token=book.token WHERE post.token='" + token + "';"
 			conn.query(sql, function (err, rows, fields) {
 				if (err) {
 					console.log('query is not excuted. select fail...\n' + err);
