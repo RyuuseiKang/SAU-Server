@@ -78,7 +78,7 @@ module.exports = (app) => {
 	});
 
 	router.put('/', async (req, res) => {
-		var user_token = req.query.userToken;
+		var user_token = req.query.user_token;
 		var post_token = req.query.token;
 		var description = req.query.description;
 		var price = req.query.price;
@@ -94,8 +94,7 @@ module.exports = (app) => {
 					});
 					return;
 				}
-				console.log(isComplete);
-				var sql = "update post set isComplete=" + isComplete + " description='" + description + "', imageUri='" + imageUri + "', price='" + price + "', isSell=" + isSell + " where user_token='" + decoded.user_token + "' and token='" + post_token + "'";
+				var sql = "update post set isComplete=" + isComplete + ", description='" + description + "', imageUri='" + imageUri + "', price='" + price + "', isSell=" + isSell + " where user_token='" + decoded.user_token + "' and token='" + post_token + "'";
 				conn.query(sql, function (err, rows, fields) {
 					if (err) {
 						console.log('query is not excuted. update fail...\n' + err);
