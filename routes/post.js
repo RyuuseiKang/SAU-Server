@@ -94,7 +94,7 @@ module.exports = (app) => {
 					});
 					return;
 				}
-				var sql = "update post set isComplete='" + isComplete + "' description='" + description + "', imageUri='" + imageUri + "', price='" + price + "', isSell=" + isSell + " where user_token='" + decoded.user_token + "' and token='" + post_token + "'";
+				var sql = "update post set isComplete=" + isComplete + " description='" + description + "', imageUri='" + imageUri + "', price='" + price + "', isSell=" + isSell + " where user_token='" + decoded.user_token + "' and token='" + post_token + "'";
 				conn.query(sql, function (err, rows, fields) {
 					if (err) {
 						console.log('query is not excuted. update fail...\n' + err);
